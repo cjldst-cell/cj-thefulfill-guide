@@ -157,6 +157,15 @@
     nav.sidebar.open { left: 0; }
     .menu-toggle { display: inline-flex !important; }
     .updated-badge { display: none; }
+    /* 모바일: 확대/축소 버튼이 실제 이미지 너비를 바꾸도록 (가로 스크롤 허용) */
+    main.content { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .page-block { box-sizing: border-box; max-width: none; width: calc(100vw * var(--zoom)); margin: 0 0 26px; padding: 0 12px; }
+    .empty-state { max-width: 100%; }
+    header { padding: 8px 12px; gap: 8px 10px; }
+    .brand { font-size: 14px; }
+    .search-wrap { flex: 1 1 100%; min-width: 0; }
+    .search-box { flex: 1; min-width: 0; }
+    .search-box input { min-width: 0; width: 100%; }
   }
   .menu-toggle {
     display: none; align-items: center; justify-content: center; width: 32px; height: 32px;
@@ -373,7 +382,8 @@ function closeMobileNav(){ sidebar.classList.remove('open'); }
 
 // ---- zoom controls ----
 let zoomPct = 100;
-const ZOOM_MIN = 50, ZOOM_MAX = 200, ZOOM_STEP = 10;
+const IS_MOBILE = window.matchMedia('(max-width: 780px)').matches;
+const ZOOM_MIN = 50, ZOOM_MAX = IS_MOBILE ? 300 : 200, ZOOM_STEP = IS_MOBILE ? 25 : 10;
 function applyZoom(){
   document.documentElement.style.setProperty('--zoom', (zoomPct/100).toString());
   document.getElementById('zoomLabel').textContent = zoomPct + '%';
